@@ -1,6 +1,7 @@
 angular.module('starter.controllers', [])
 
 .controller('MapCtrl', function($scope, $state) {
+	console.log("test")
   var options = {timeout: 10000, enableHighAccuracy: true};
  
     var latLng = new google.maps.LatLng(51.962022, 7.624095);
@@ -35,7 +36,7 @@ angular.module('starter.controllers', [])
   $scope.chat = Chats.get($stateParams.chatId);
 })
 
-.controller('AccountCtrl', function($scope) {
+.controller('DirectionsCtrl', function($scope) {
   $scope.settings = {
     enableFriends: true
   };
