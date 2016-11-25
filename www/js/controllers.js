@@ -1,21 +1,7 @@
 angular.module('starter.controllers', [])
 
-.controller('MapCtrl', function($scope, $state) {
-	console.log("test")
-  var options = {timeout: 10000, enableHighAccuracy: true};
- 
-    var latLng = new google.maps.LatLng(51.962022, 7.624095);
- 
-    var mapOptions = {
-      center: latLng,
-      zoom: 15,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
- 
-    $scope.map = new google.maps.Map(document.getElementById("map"), mapOptions);
- 
-  }, function(error){
-    console.log("Could not get location");
+.controller('MapCtrl', function($scope, $state, mapService) {
+	mapService.initMap();
   })
 .controller('ChatsCtrl', function($scope, Chats) {
   // With the new view caching in Ionic, Controllers are only called
