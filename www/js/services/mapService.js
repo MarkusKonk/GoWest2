@@ -17,7 +17,9 @@ angular.module('starter.services', [])
 	    };
 	 
 	    map = new google.maps.Map(document.getElementById("map"), mapOptions);
-	    
+	    console.log(navigator.geolocation.getCurrentPosition(function(position){
+	    	console.log(position)
+	    }));
 	    var longpress = false;
 
     	google.maps.event.addListener(map,'click', function (event) {
@@ -33,9 +35,32 @@ angular.module('starter.services', [])
                     longpress = (end - start < 500) ? false : true;         
 
         });
+        
+        var geoloccontrol = new klokantech.GeolocationControl(map, map.getZoom());
 	    
 	    return map;
 	};
+	
+	var Latitude = undefined;
+	var Longitude = undefined;
+
+	document.addEventListener("deviceready", onDeviceReady, false);
+    function onDeviceReady() {
+
+    var onSuccess = function(position) {
+    	Latitude = position.coords.latitude;
+    	Longitude = position.coords.longitude;
+    	console.log(position.coords)
+    	map.setCenter({lat:Latitude, lng:Longitude});
+    };
+
+    function onError(error) {
+        alert('code: '    + error.code    + '\n' +
+              'message: ' + error.message + '\n');
+    }
+
+	navigator.geolocation.getCurrentPosition(onSuccess, onError);
+  	}
 	
  	var setMarkerForRouting = function(location){	
  		if (routeElements.length < 2){
