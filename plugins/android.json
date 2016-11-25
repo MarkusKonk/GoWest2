@@ -24,14 +24,7 @@
         },
         "ionic-plugin-keyboard": {
             "PACKAGE_NAME": "com.ionicframework.gowest2225084"
-        },
-        "cordova-plugin-geolocation": {
-            "PACKAGE_NAME": "com.ionicframework.gowest2225084"
         }
     },
-    "dependent_plugins": {
-        "cordova-plugin-compat": {
-            "PACKAGE_NAME": "com.ionicframework.gowest2225084"
-        }
-    }
+    "dependent_plugins": {}
 }
