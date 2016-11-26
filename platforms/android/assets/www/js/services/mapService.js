@@ -17,9 +17,7 @@ angular.module('starter.services', [])
 	    };
 	 
 	    map = new google.maps.Map(document.getElementById("map"), mapOptions);
-	    console.log(navigator.geolocation.getCurrentPosition(function(position){
-	    	console.log(position)
-	    }));
+	    
 	    var longpress = false;
 
     	google.maps.event.addListener(map,'click', function (event) {
@@ -36,6 +34,8 @@ angular.module('starter.services', [])
 
         });
         
+        query();
+        
         var geoloccontrol = new klokantech.GeolocationControl(map, map.getZoom());
 	    
 	    return map;
@@ -50,7 +50,7 @@ angular.module('starter.services', [])
     var onSuccess = function(position) {
     	Latitude = position.coords.latitude;
     	Longitude = position.coords.longitude;
-    	console.log(position.coords)
+    	//console.log(position.coords)
     	map.setCenter({lat:Latitude, lng:Longitude});
     };
 
@@ -100,6 +100,45 @@ angular.module('starter.services', [])
 		  }
 		});			
  	};
+ 	
+ 	var transformData = function(obj){
+ 		var jsonObjects = obj;
+ 		var toArray = [];
+ 		if(jsonObjects.length > 1){
+ 			for(i in jsonObjects){
+ 				console.log(jsonObjects[i].geometry.location)
+ 				toArray.push(new google.maps.LatLng(jsonObjects[i].geometry.location.lat(), 
+ 																jsonObjects[i].geometry.location.lng()));
+ 			}
+ 		}else{
+ 		}
+ 		return toArray;
+ 	};
+
+ 	var query = function(){	
+		var entities = [];
+		var service = new google.maps.places.PlacesService(map);
+		service.nearbySearch({
+		    location: new google.maps.LatLng(51.962022, 7.624095),
+		    radius: 2000,
+		    types: ['bar']
+		}, callback);
+		
+		function callback(results, status, pagination) {
+			entities.push.apply(entities, results);
+			if (status === google.maps.places.PlacesServiceStatus.OK) {
+		    	if (pagination.hasNextPage){
+					pagination.nextPage();
+		    	}
+		    else{
+		   		heatmap = new google.maps.visualization.HeatmapLayer({
+    				data: transformData(entities),
+    				map: map
+  				}); 	
+		    }					  
+		  }
+		}	
+ 	}; 	
 	
 	return {
 		initMap: initMap

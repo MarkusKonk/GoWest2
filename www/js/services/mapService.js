@@ -100,6 +100,20 @@ angular.module('starter.services', [])
 		  }
 		});			
  	};
+ 	
+ 	var transformData = function(obj){
+ 		var jsonObjects = obj;
+ 		var toArray = [];
+ 		if(jsonObjects.length > 1){
+ 			for(i in jsonObjects){
+ 				console.log(jsonObjects[i].geometry.location)
+ 				toArray.push(new google.maps.LatLng(jsonObjects[i].geometry.location.lat(), 
+ 																jsonObjects[i].geometry.location.lng()));
+ 			}
+ 		}else{
+ 		}
+ 		return toArray;
+ 	};
 
  	var query = function(){	
 		var entities = [];
@@ -117,7 +131,10 @@ angular.module('starter.services', [])
 					pagination.nextPage();
 		    	}
 		    else{
-		   		console.log(entities); 	
+		   		heatmap = new google.maps.visualization.HeatmapLayer({
+    				data: transformData(entities),
+    				map: map
+  				}); 	
 		    }					  
 		  }
 		}	
