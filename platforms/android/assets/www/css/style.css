@@ -8,3 +8,13 @@
     width: 100%;
     height: 100%;
 } 
+
+#btnwatch{
+    width: 100%;
+    height: 50px;
+    background-color: orangered;
+    border: none;
+    font-size: 17px;
+    font-weight: bold;
+    color: white;
+}
