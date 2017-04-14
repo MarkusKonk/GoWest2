@@ -5,45 +5,22 @@
         .module('starter')
         .controller('MapController', MapController);
 
-        MapController.$inject = ['$scope','$rootScope', '$http'];
+        MapController.$inject = ['$scope','$rootScope', '$http', 'mapService'];
 
-        function MapController($scope,$rootScope, $http){
+        function MapController($scope, $rootScope, $http, mapService){
         	$rootScope.routepoints=[];
         	
-		    angular.extend($scope, {
-		    	tiles: {
-            		url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-          		},
-		        center: {
-		            lat: 51.966505, 
-		            lng: 7.623405,
-		            zoom: 15
-		        },
-		        defaults: {
-		            scrollWheelZoom: false,
-		            tileLayer: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-	                tileLayerOptions: {
-        				opacity: 1,
-        				detectRetina: true,
-        				reuseTiles: true,
-      				}
-		        },
-		        events: {
-		        	map: {
-		        		enable: ['click','mousedown','mouseup'],
-		        		logic: 'emit'
-		        	}
-		        }
-		    });
+			mapService.initiateMap($scope);
 		    
 		    function addToRoute(location){
 		    	$http.get(" http://nominatim.openstreetmap.org/reverse?format=json&lat="+location.leafletEvent.latlng.lat+"&lon="+
 		    																	location.leafletEvent.latlng.lng+"&zoom=18&addressdetails=1")
 		    	.then(function(res){
 		    		$rootScope.routepoints.push(res.data);
-		    		console.log("added")
+		    		console.log("added");
 		    	})
 		    	.catch(function(err){
+		    		console.log(err);
 		    	});
 		    };
 		    
