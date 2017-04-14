@@ -5,20 +5,28 @@
         .module('starter')
         .controller('MapController', MapController);
 
-        MapController.$inject = ['$rootScope', '$scope', '$http'];
+        MapController.$inject = ['$scope','$rootScope', '$http'];
 
-        function MapController($rootScope, $scope, $http){
-        	
+        function MapController($scope,$rootScope, $http){
         	$rootScope.routepoints=[];
         	
 		    angular.extend($scope, {
+		    	tiles: {
+            		url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+          		},
 		        center: {
 		            lat: 51.966505, 
 		            lng: 7.623405,
 		            zoom: 15
 		        },
 		        defaults: {
-		            scrollWheelZoom: false
+		            scrollWheelZoom: false,
+		            tileLayer: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+	                tileLayerOptions: {
+        				opacity: 1,
+        				detectRetina: true,
+        				reuseTiles: true,
+      				}
 		        },
 		        events: {
 		        	map: {

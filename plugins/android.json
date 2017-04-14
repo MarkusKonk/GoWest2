@@ -13,10 +13,16 @@
         "cordova-plugin-device": {
             "PACKAGE_NAME": "com.ionicframework.gowest2225084"
         },
+        "cordova-plugin-device-orientation": {
+            "PACKAGE_NAME": "com.ionicframework.gowest2225084"
+        },
         "cordova-plugin-splashscreen": {
             "PACKAGE_NAME": "com.ionicframework.gowest2225084"
         },
         "cordova-plugin-statusbar": {
+            "PACKAGE_NAME": "com.ionicframework.gowest2225084"
+        },
+        "cordova-plugin-vibration": {
             "PACKAGE_NAME": "com.ionicframework.gowest2225084"
         },
         "cordova-plugin-whitelist": {
@@ -25,12 +31,13 @@
         "ionic-plugin-keyboard": {
             "PACKAGE_NAME": "com.ionicframework.gowest2225084"
         },
-        "cordova-plugin-device-orientation": {
-            "PACKAGE_NAME": "com.ionicframework.gowest2225084"
-        },
-        "cordova-plugin-vibration": {
+        "cordova-plugin-geolocation": {
             "PACKAGE_NAME": "com.ionicframework.gowest2225084"
         }
     },
-    "dependent_plugins": {}
+    "dependent_plugins": {
+        "cordova-plugin-compat": {
+            "PACKAGE_NAME": "com.ionicframework.gowest2225084"
+        }
+    }
 }

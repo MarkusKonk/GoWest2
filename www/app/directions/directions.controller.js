@@ -62,6 +62,19 @@
 					
 				navigator.compass.watchHeading(onCompassUpdate, onCompassError, options);
 				
+				function onSuccess(res){
+					console.log(res)
+				};
+				
+				function onError(err){
+					console.log(err)
+				};
+				
+				var geolocationOptions={ maximumAge: 3000, timeout: 5000, enableHighAccuracy: true };
+				
+				navigator.geolocation.getCurrentPosition(onSuccess, onError);
+                                         
+				
 			});		    
    
    }

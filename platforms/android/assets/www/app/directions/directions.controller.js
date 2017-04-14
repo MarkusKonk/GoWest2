@@ -19,6 +19,8 @@
 				//var diff = destinationBearing - currentHeading;
 				var watch_value=0;
 	
+	//see http://phonegaptut.com/2016/06/30/make-real-compass-app-phonegap/
+	
 				function onCompassUpdate(heading) {
 					document.getElementById('heading').innerHTML = 'Heading: ' + heading.magneticHeading;
 					
@@ -59,6 +61,19 @@
 				};
 					
 				navigator.compass.watchHeading(onCompassUpdate, onCompassError, options);
+				
+				function onSuccess(res){
+					console.log(res)
+				};
+				
+				function onError(err){
+					console.log(err)
+				};
+				
+				var geolocationOptions={ maximumAge: 3000, timeout: 5000, enableHighAccuracy: true };
+				
+				navigator.geolocation.getCurrentPosition(onSuccess, onError);
+                                         
 				
 			});		    
    
