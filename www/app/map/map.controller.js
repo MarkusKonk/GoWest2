@@ -8,7 +8,23 @@
         MapController.$inject = ['$scope','$rootScope', '$http', 'mapService', '$ionicPopup', '$location'];
 
         function MapController($scope, $rootScope, $http, mapService, $ionicPopup, $location){
+        	document.addEventListener("deviceready", function () {
+        		$rootScope.currentPosition;
+        		
+        		function success(res){
+        			console.log("Found location");
+        			$rootScope.currentPosition=res;
+        		};
+        		
+        		function error(err){
+        			console.log(err);
+        		};
+        		
+        		navigator.geolocation.getCurrentPosition(success, error);	
+        	});
+        	
         	$rootScope.routepoints=[];
+        	
         	
 			mapService.initiateMap($scope);
 		    

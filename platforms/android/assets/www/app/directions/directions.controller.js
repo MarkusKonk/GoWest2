@@ -5,67 +5,46 @@
         .module('starter')
         .controller('DirectionsController', DirectionsController);
 
-        DirectionsController.$inject = ['$rootScope', '$scope', '$cordovaDeviceOrientation', '$cordovaGeolocation', 'mapService'];
+        DirectionsController.$inject = ['$rootScope','$scope', '$cordovaDeviceOrientation', '$cordovaGeolocation', 'mapService'];
 		
         function DirectionsController($rootScope, $scope, $cordovaDeviceOrientation, $cordovaGeolocation, mapService){
-			
 			var directionsctrl=this;
 			
-			console.log(mapService.getDestination());
-			
 			document.addEventListener("deviceready", function () {
-				directionsctrl.startCompass=startCompass;
-				var currentPosition=new LatLon(51.972122, 7.633966);
-				var destinationPosition=new LatLon(51.981222, 8.065917);
-				//var destinationBearing = Math.round(currentPosition.bearingTo(destinationPosition));
-				//var diff = destinationBearing - currentHeading;
-				var watch_value=0;
-	
-	//see http://phonegaptut.com/2016/06/30/make-real-compass-app-phonegap/
-	
-				function onCompassUpdate(heading) {
-					document.getElementById('heading').innerHTML = 'Heading: ' + heading.magneticHeading;
-					
-					var rotation = Math.round(360 - heading.magneticHeading) + 'deg';
-        			var dir = Math.round(heading.magneticHeading);
-
-
-        			$('#txtheading').html(dir + "&#176".sup() + " ");
-        			$('#imgNeedle').css('-webkit-transform', 'rotate(' + rotation + ')');
+				
+				directionsctrl.heading = null;
+				directionsctrl.position = null;
+				directionsctrl.rotation = null;
+				directionsctrl.destinationBearing = null;
+				directionsctrl.destination=mapService.getDestination()[0];
+				
+				function onCompassUpdate(heading) {					
+					directionsctrl.rotation = Math.round(360 - heading.magneticHeading) + 'deg';
+        			directionsctrl.heading = Math.round(heading.magneticHeading);
+        			var pos=new LatLon($rootScope.currentPosition.coords.latitude,$rootScope.currentPosition.coords.longitude);
+        			var des=new LatLon(directionsctrl.destination.leafletEvent.latlng.lat, directionsctrl.destination.leafletEvent.latlng.lng);
+        			directionsctrl.destinationBearing = Math.round(pos.bearingTo(des));
+					directionsctrl.diff = directionsctrl.destinationBearing - directionsctrl.heading + 'deg';
+					$('#txtheading').html(directionsctrl.heading + "&#176".sup() + " ");
+        			$('#imgNeedle').css('-webkit-transform', 'rotate(' + directionsctrl.diff + ')');
+        			console.log(directionsctrl.rotation)
+        			console.log(directionsctrl.diff)
 				};
 					
 				function onCompassError(error) {
 					console.log(err);
 				};
-				
-				function startCompass(){
-			        var options = null;
-			
-			        if (watch_value == 0) {
-			            options = {
-			                frequency: 100
-			            };
-			
-			            watch_value = navigator.compass.watchHeading(compassSucess, compassError, options);
-			
-			            //$(this).html('Stop watching');
-			        } else {
-			            navigator.compass.clearWatch(watch_value);
-			            watch_value = 0;
-			
-			            //$(this).html('Stop Watching');
-			        }
-			    };
 					
 				var options = {
 					frequency: 1000,
 				    filter: false     // if frequency is set, filter is ignored
 				};
 					
-				navigator.compass.watchHeading(onCompassUpdate, onCompassError, options);
+				directionsctrl.test = navigator.compass.watchHeading(onCompassUpdate, onCompassError, options);
 				
 				function onSuccess(res){
-					console.log(res)
+					console.log(res);
+					$rootScope.currentPosition=res;
 				};
 				
 				function onError(err){
@@ -74,12 +53,11 @@
 				
 				var geolocationOptions={ maximumAge: 3000, timeout: 5000, enableHighAccuracy: true };
 				
-				navigator.geolocation.getCurrentPosition(onSuccess, onError);
-                                         
+				navigator.geolocation.watchPosition(onSuccess, onError);
 				
 			});		    
    
-   }
+   		}
 })();
 
 
