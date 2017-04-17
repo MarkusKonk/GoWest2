@@ -5,11 +5,13 @@
         .module('starter')
         .controller('DirectionsController', DirectionsController);
 
-        DirectionsController.$inject = ['$rootScope', '$scope', '$cordovaDeviceOrientation', '$cordovaGeolocation'];
+        DirectionsController.$inject = ['$rootScope', '$scope', '$cordovaDeviceOrientation', '$cordovaGeolocation', 'mapService'];
 		
-        function DirectionsController($rootScope, $scope, $cordovaDeviceOrientation, $cordovaGeolocation){
+        function DirectionsController($rootScope, $scope, $cordovaDeviceOrientation, $cordovaGeolocation, mapService){
 			
 			var directionsctrl=this;
+			
+			console.log(mapService.getDestination());
 			
 			document.addEventListener("deviceready", function () {
 				directionsctrl.startCompass=startCompass;
