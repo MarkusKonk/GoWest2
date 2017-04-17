@@ -8,11 +8,24 @@
 	mapService.$inject = [];
 		
 	function mapService(){
+		
+		var routePoints=[];
+		
 		var service = {
-			initiateMap : initiateMap
+			initiateMap : initiateMap,
+			addDestination: addDestination,
+			getDestination: getDestination
 		};
 
 		return service;
+		
+		function addDestination(location){
+			routePoints.push(location);
+		};
+		
+		function getDestination(){
+			return routePoints;
+		};
 
 		function initiateMap($scope){
 			angular.extend($scope, {
