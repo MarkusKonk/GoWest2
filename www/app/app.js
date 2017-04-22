@@ -46,9 +46,9 @@
       		url: '/routepoints',
       		views: {
         		'tab-routepoints': {
-          		templateUrl: 'app/routePoints/tab-routepoints.html',
-          		controller: 'RoutepointsController',
-          		controllerAs: 'rpoints'
+          			templateUrl: 'app/routePoints/tab-routepoints.html',
+          			controller: 'RoutepointsController',
+          			controllerAs: 'rpoints'
         		}	
       		}
     	})

@@ -1,16 +1,15 @@
 <ion-view view-title="Routepoints">
   <ion-content>
-	<div ng-repeat="item in rpoints.locations">
+	<div ng-repeat="destination in rpoints.locations">
 		<ion-card>
-
-  			<ion-card-header>
-    			{{item.address.road + " " + item.address.house_number}}
-  			</ion-card-header>
-
-			<ion-card-content>
-    			{{item.address.road}}
-		  	</ion-card-content>
-
+			  <ion-card-content>
+			    <ion-card-title>
+			    	{{destination.data.address.road}}
+			      </ion-card-title>
+			    <p>
+					{{destination.data.address.suburb}}
+			    </p>
+			  </ion-card-content>
 		</ion-card>
 	</div>
   </ion-content>

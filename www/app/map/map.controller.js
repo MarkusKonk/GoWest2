@@ -8,6 +8,7 @@
         MapController.$inject = ['$scope','$rootScope', '$http', 'mapService', '$ionicPopup', '$location'];
 
         function MapController($scope, $rootScope, $http, mapService, $ionicPopup, $location){
+        	
         	document.addEventListener("deviceready", function () {
         		$rootScope.currentPosition;
         		
@@ -32,8 +33,9 @@
 		    	$http.get(" http://nominatim.openstreetmap.org/reverse?format=json&lat="+location.leafletEvent.latlng.lat+"&lon="+
 		    															location.leafletEvent.latlng.lng+"&zoom=18&addressdetails=1")
 		    	.then(function(res){
-		    		$rootScope.routepoints.push(res.data);
+		    		mapService.addDestination(res);
 		    		console.log("added");
+		    		$location.path("/tab/directions");
 		    	})
 		    	.catch(function(err){
 		    		console.log(err);
@@ -49,8 +51,7 @@
 			
 			      confirmPopup.then(function(res) {
 			         if(res) {
-			         	mapService.addDestination(wrap);	
-		         	   	$location.path("/tab/directions");
+			 			addToRoute(wrap);
 			         }
 			      });
     		});

@@ -20,6 +20,7 @@
 		return service;
 		
 		function addDestination(location){
+			routePoints=[];
 			routePoints.push(location);
 		};
 		

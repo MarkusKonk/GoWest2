@@ -5,9 +5,9 @@
         .module('starter')
         .controller('DirectionsController', DirectionsController);
 
-        DirectionsController.$inject = ['$rootScope','$scope', '$cordovaDeviceOrientation', '$cordovaGeolocation', 'mapService'];
+        DirectionsController.$inject = ['$rootScope','$scope', '$cordovaDeviceOrientation', '$cordovaGeolocation', 'mapService', 'signageService'];
 		
-        function DirectionsController($rootScope, $scope, $cordovaDeviceOrientation, $cordovaGeolocation, mapService){
+        function DirectionsController($rootScope, $scope, $cordovaDeviceOrientation, $cordovaGeolocation, mapService, signageService){
 			var directionsctrl=this;
 			
 			document.addEventListener("deviceready", function () {
@@ -22,13 +22,11 @@
 					directionsctrl.rotation = Math.round(360 - heading.magneticHeading) + 'deg';
         			directionsctrl.heading = Math.round(heading.magneticHeading);
         			var pos=new LatLon($rootScope.currentPosition.coords.latitude,$rootScope.currentPosition.coords.longitude);
-        			var des=new LatLon(directionsctrl.destination.leafletEvent.latlng.lat, directionsctrl.destination.leafletEvent.latlng.lng);
+        			var des=new LatLon(directionsctrl.destination.data.lat, directionsctrl.destination.data.lng);
         			directionsctrl.destinationBearing = Math.round(pos.bearingTo(des));
 					directionsctrl.diff = directionsctrl.destinationBearing - directionsctrl.heading + 'deg';
 					$('#txtheading').html(directionsctrl.heading + "&#176".sup() + " ");
         			$('#imgNeedle').css('-webkit-transform', 'rotate(' + directionsctrl.diff + ')');
-        			console.log(directionsctrl.rotation)
-        			console.log(directionsctrl.diff)
 				};
 					
 				function onCompassError(error) {
@@ -43,8 +41,8 @@
 				directionsctrl.test = navigator.compass.watchHeading(onCompassUpdate, onCompassError, options);
 				
 				function onSuccess(res){
-					console.log(res);
 					$rootScope.currentPosition=res;
+					signageService.showSignage(res, directionsctrl.destination);
 				};
 				
 				function onError(err){

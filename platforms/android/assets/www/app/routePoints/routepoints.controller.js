@@ -5,11 +5,14 @@
         .module('starter')
         .controller('RoutepointsController', RoutepointsController);
 
-        RoutepointsController.$inject = ['$rootScope', '$scope'];
+        RoutepointsController.$inject = ['$scope', 'mapService'];
 
-        function RoutepointsController($rootScope, $scope){
+        function RoutepointsController($scope, mapService){
         	var rpoints = this;
-        		rpoints.locations=$rootScope.routepoints;
-        		console.log(rpoints);
+        		      	
+        	$scope.$on('$ionicView.enter', function() {
+    			rpoints.locations=mapService.getDestination();
+    			console.log(rpoints.locations);
+			});
         }
 })();
