@@ -22,10 +22,12 @@
 					directionsctrl.rotation = Math.round(360 - heading.magneticHeading) + 'deg';
         			directionsctrl.heading = Math.round(heading.magneticHeading);
         			var pos=new LatLon($rootScope.currentPosition.coords.latitude,$rootScope.currentPosition.coords.longitude);
-        			var des=new LatLon(directionsctrl.destination.data.lat, directionsctrl.destination.data.lng);
+        			var des=new LatLon(directionsctrl.destination.data.lat, directionsctrl.destination.data.lon);
         			directionsctrl.destinationBearing = Math.round(pos.bearingTo(des));
+        			console.log(pos);
+        			console.log(des);
 					directionsctrl.diff = directionsctrl.destinationBearing - directionsctrl.heading + 'deg';
-					$('#txtheading').html(directionsctrl.heading + "&#176".sup() + " ");
+					$('#txtheading').html(directionsctrl.rotation + "&#176".sup() + " ");
         			$('#imgNeedle').css('-webkit-transform', 'rotate(' + directionsctrl.diff + ')');
 				};
 					

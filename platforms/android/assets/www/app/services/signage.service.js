@@ -19,19 +19,13 @@
 
 		return service;
 				
-		function showSignage(current, target){
-			console.log(current)
-			console.log(target)			
+		function showSignage(current, target){	
 			var pt = turf.point([current.coords.longitude, current.coords.latitude]);
         	var target = turf.point([parseFloat(target.data.lon), parseFloat(target.data.lat)]);
-			console.log(pt);
-			console.log(target);
 			for(var feature in signage){
 				var signagePolygon = turf.polygon(signage[feature].features[1].geometry.coordinates);
 				var sightPolygon = turf.polygon(signage[feature].features[2].geometry.coordinates);
-				console.log(turf.inside(pt, signagePolygon));
 				var isInside = turf.inside(pt, signagePolygon) && turf.inside(target, sightPolygon);
-				console.log(isInside);
 			}
 		};		
 		
